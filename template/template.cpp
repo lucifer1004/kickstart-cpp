@@ -9,14 +9,19 @@
 
 using namespace std;
 
+void solve(int case_num) {
+  int n;
+  cin >> n;
+  cout << "Case #" << case_num << ": " << n << endl;
+}
+
 int main()
 {
-  int t, n, m;
+  int t;
   cin >> t;
   for (int i = 1; i <= t; ++i)
   {
-    cin >> n >> m;
-    cout << "Case #" << i << ": " << (n + m) << " " << (n * m) << endl;
+    solve(i);
   }
   return 0;
 }
