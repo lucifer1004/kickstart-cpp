@@ -12,8 +12,8 @@
 using namespace std;
 
 struct Choice {
-  int point;
-  bitset<M> tea;
+  int point {0};
+  bitset<M> tea {bitset<M> {0}};
 };
 
 struct compare_choice {
@@ -23,8 +23,8 @@ struct compare_choice {
 };
 
 void solve(int case_num) {
-  int n, m, p, best_point;
-  int count[M] = {};
+  int n, m, p, best_point {0};
+  int count[M] {};
   string s;
   vector<bitset<M>> bans;
   vector<int> point;
@@ -40,25 +40,23 @@ void solve(int case_num) {
 
   for (int i = 0; i < m; ++i) {
     cin >> s;
-    bitset<M> bset(s + "0");
+    bitset<M> bset {s + "0"};
     bans.push_back(bset);
   }
 
   auto sentinel = Choice();
-  sentinel.point = 0;
-  sentinel.tea = bitset<M>(0);
   best.insert(sentinel);
 
   for (int i = 1; i <= p; i++) {
     for (const auto &choice : best) {
       auto choose = Choice();
-      choose.tea = bitset<M>(choice.tea);
+      choose.tea = bitset<M> {choice.tea};
       choose.tea.set(i);
       choose.point = choice.point + count[i];
       tmp.insert(choose);
 
       auto skip = Choice();
-      skip.tea = bitset<M>(choice.tea);
+      skip.tea = bitset<M> {choice.tea};
       skip.point = choice.point + n - count[i];
       tmp.insert(skip);
     }
@@ -70,16 +68,16 @@ void solve(int case_num) {
     }
   }
 
-  for (auto it = best.begin(); it != best.end(); ++it) {
+  for (const auto& choice : best) {
     bool banned = false;
-    for (auto ban = bans.begin(); ban != bans.end(); ++ban) {
-      if ((*it).tea == *ban) {
+    for (const auto& ban : bans) {
+      if (choice.tea == ban) {
         banned = true;
         break;
       }
     }
     if (!banned) {
-      best_point = (*it).point;
+      best_point = choice.point;
       break;
     }
   }
