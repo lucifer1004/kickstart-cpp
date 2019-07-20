@@ -7,9 +7,6 @@
 #include <string>
 #include <cmath>
 
-// Considering the range of input (<=10000), it is reasonable to set the search upper limit to 100000.
-#define UPPER_LIMIT 100000
-
 using namespace std;
 
 void solve(int case_num) {
@@ -32,24 +29,23 @@ void solve(int case_num) {
   if (MIN == MAX) count = 1;
   else if (MIN + MAX == 2 * MEAN && MEAN == MEDIAN) count = 2;
   else {
-    count = 3;
-    while (true) {
-      if (count > UPPER_LIMIT) {
-        cout << "Case #" << case_num << ": " << "IMPOSSIBLE" << endl;
-        return;
-      }
-      int k = count / 2;
-      if (count % 2 == 1) {
-        int left = MIN * k + MEDIAN * k + MAX;
-        int right = MIN + MEDIAN * k + MAX * k;
-        if (MEAN * count >= left && MEAN * count <= right) break;
-      } else {
-        int left = MIN * (k - 1) + MEDIAN * k + MAX;
-        int right = MIN + MEDIAN * k + MAX * (k - 1);
-        if (MEAN * count >= left && MEAN * count <= right) break;
-      }
-      count++;
+    if (2 * MEAN >= MEDIAN + MAX || 2 * MEAN <= MIN + MEDIAN) {
+      cout << "Case #" << case_num << ": " << "IMPOSSIBLE" << endl;
+      return;
     }
+
+    // even case
+    int left = ceil((double) (MAX - MIN) / (2 * MEAN - MIN - MEDIAN));
+    int right = ceil((double) (MAX - MIN) / (MAX + MEDIAN - 2 * MEAN));
+    int k = max(left, right);
+    int even = 2 * k;
+
+    // odd case
+    left = ceil((double) (MAX - MEAN) / (2 * MEAN - MIN - MEDIAN));
+    right = ceil((double) (MEAN - MIN) / (MAX + MEDIAN - 2 * MEAN));
+    k = max(left, right);
+    int odd = 2 * k + 1;
+    count = min(even, odd);
   }
 
   cout << "Case #" << case_num << ": " << count << endl;
