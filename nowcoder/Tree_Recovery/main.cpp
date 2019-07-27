@@ -100,12 +100,12 @@ int main() {
     if (c == 'Q') {
       int l, r;
       cin >> l >> r;
-      cout << tree.query(l-1, r) << endl;
+      cout << tree.query(l - 1, r) << endl;
     }
     if (c == 'C') {
       int l, r, delta;
       cin >> l >> r >> delta;
-      tree.modify(l-1, r, delta);
+      tree.modify(l - 1, r, delta);
     }
   }
   return 0;
